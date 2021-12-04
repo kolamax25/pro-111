@@ -46,7 +46,7 @@ def setup():
     show_fig(mean_list)
     
     mean = statistics.mean(mean_list)
-    print("Mean of sampling distribution: ",mean )
+    print("Mean of sampling distribution: ",mean)
 
 setup()
 
@@ -63,3 +63,24 @@ def standard_deviation():
     print("Standard deviation of sampling distribution: ", std_deviation)
 
 standard_deviation()
+
+
+first_std_deviation_start, first_std_deviation_end = mean-std_deviation, mean+std_deviation
+second_std_deviation_start, second_std_deviation_end = mean-(2*std_deviation), mean+(2*std_deviation)
+third_std_deviation_start, third_std_deviation_end = mean-(3*std_deviation), mean+(3*std_deviation)
+
+df = pd.read_csv("temp.csv")
+data = df["temp"].tolist()
+mean_of_sample1 = statistics.mean(data)
+print("Mean of sample1:- ",mean_of_sample1)
+fig = ff.create_distplot([data], ["student marks"], show_hist=False)
+fig.add_trace(go.Scatter(x=[mean, mean], y=[0, 0.17], mode="lines", name="MEAN"))
+fig.add_trace(go.Scatter(x=[mean_of_sample1, mean_of_sample1], y=[0, 0.17], mode="lines", name="MEAN OF Temp"))
+fig.add_trace(go.Scatter(x=[first_std_deviation_end, first_std_deviation_end], y=[0, 0.17], mode="lines", name="STANDARD DEVIATION 1 END"))
+fig.add_trace(go.Scatter(x=[second_std_deviation_end, second_std_deviation_end], y=[0, 0.17], mode="lines", name="STANDARD DEVIATION 2 END"))
+fig.add_trace(go.Scatter(x=[third_std_deviation_end, third_std_deviation_end], y=[0, 0.17], mode="lines", name="STANDARD DEVIATION 3 END"))
+fig.show()
+
+#finding the z score using the formula 
+z_score = (population_mean - mean)/std_deviation 
+print("The z score is = ",z_score)
